@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,200;0,300;0,400;1,100;1,300;1,400&display=swap");
+
+:root {
+  --red-main: #d90429;
+  --red-lighter: #3f0b11;
+  --white-bluish: #ff6666;
+  --grey-light: #20242c;
+  --gray-dark: #191b29;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #d90429;
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  margin: 20px 0px;
+  color: var(--gray-dark);
+  font-size: 20px;
+  text-align: center;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#container__settings {
+  display: flex;
+}
+
+.container__settings_timeLength {
+  padding: 10px 30px;
+}
+
+h2 {
+  color: var(--grey-light);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.settings_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  gap: 10px;
+  color: var(--red-lighter);
+}
+
+.settings_buttons > button {
+  border: none;
+  background-color: transparent;
+  color: var(--gray-dark);
+}
+
+.settings_buttons > button:hover {
+  cursor: pointer;
+  color: #5f4144;
+}
+
+.container__display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  margin: 10px;
+  padding: 24px;
+  background-color: var(--white-bluish);
+  border-radius: 6px;
+}
+
+#timer-label {
+    padding: 8px;
+    font-size: 30px;
+}
+
+#time-left {
+    font-size: 52px;
+    padding-bottom: 16px;
+}
+
+#adjust-pomodoro {
+    display: flex;
+    gap:14px;
+}
+
+#adjust-pomodoro>button{
+    background-color: var(--red-lighter);
+    color:rgb(252, 209, 209);
+    border: none;
+    border-radius: 4px;
+    padding:2px 20px;
+}
+
+#adjust-pomodoro>button:hover{
+    cursor: pointer;
+    opacity: 80%;
+}
+
+#warning{
+  align-self: center;
+  font-size: 12px;
+}
+
+svg {
+  width: 24px;
+}
