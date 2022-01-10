@@ -1,16 +1,16 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ClockLength from "./ClockLength";
 import Display from "./Display";
+import song from './ding-sound.mp3'
 
 function App() {
-  const audio = new Audio('ding-sound.mp3');
-    audio.volume = 0.3;
+    const audio = useRef(new Audio(song));
 
-    const Ref = useRef(null);
+    audio.current.volume = 0.4;
 
     const [clock, setClock] = useState({
-        time: 1500,
+        time: 2,
         paused: true,
         break: 300, 
         session: 1500,
@@ -41,10 +41,14 @@ function App() {
     };
 
     const restartTimer = () => {
+        audio.current.pause();
+        audio.current.currentTime = 0;
+
         setClock((clock) => ({
             ...clock,
             time: clock.session,
         }));
+        
     };
 
     const changeBreakDuration = (num) => {
@@ -83,7 +87,7 @@ function App() {
                         breakTime: false,
                         time: clock.session
                     }));
-                    audio.play();
+                    audio.current.play();
                     document.title = 'Work. Work. Work.';
                 } else {
                     setClock((clock) => ({
@@ -91,7 +95,7 @@ function App() {
                         breakTime: true,
                         time: clock.break
                     }));
-                    audio.play();
+                    audio.current.play();
                     document.title = 'Take a break';
                 }
             }
@@ -126,7 +130,7 @@ function App() {
                 stopTimer={stopTimer}
                 restartTimer={restartTimer}
             />
-            <audio src="./public/ding-sound.mp3"></audio>
+            <audio src="./public/ding-sound.mp3" id="beep"></audio>
             <span id="warning">*A sound will be played when the timer ends.</span>
         </div>
     );
