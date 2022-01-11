@@ -10,7 +10,7 @@ function App() {
     audio.id = 'beep';
 
     const [clock, setClock] = useState({
-        time: 2,
+        time: 1500,
         paused: true,
         break: 300, 
         session: 1500,
