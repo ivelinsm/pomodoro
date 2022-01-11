@@ -11,8 +11,7 @@ function Display(props) {
             {props.time}
         </span>
         <div id="adjust-pomodoro">
-            <button id="start_stop" onClick={props.startTimer}>Start</button>
-            <button onClick={props.stopTimer}>Stop</button>
+            <button id="start_stop" onClick={props.startStopTimer}>{props.isPaused ? 'Start' : 'Pause'}</button>
             <button id="reset" onClick={props.restartTimer}>Restart</button>
         </div>
     </div>

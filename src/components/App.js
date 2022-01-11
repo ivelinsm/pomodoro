@@ -2,57 +2,65 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import ClockLength from "./ClockLength";
 import Display from "./Display";
-import song from './ding-sound.mp3'
 
 function App() {
-    const audio = useRef(new Audio(song));
+    const audio = document.getElementById('beep');
 
-    audio.current.volume = 0.4;
+    audio.volume = 0.4;
+    audio.id = 'beep';
 
     const [clock, setClock] = useState({
         time: 2,
         paused: true,
         break: 300, 
         session: 1500,
-        breakTime: false,
+        breakTime: false
     });
 
     const getTimeRemaining = (e) => {
-        const minutes = Math.floor(clock.time / 60) % 60;
+        const minutes = Math.floor(clock.time / 60);
         const seconds = Math.floor(clock.time % 60);
 
-        let rendered = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+        let rendered = `${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
 
         return rendered;
     };
 
-    const startTimer = () => {
-        setClock((clock) => ({
-            ...clock,
-            paused: false,
-        }));
-    };
-
-    const stopTimer = () => {
-        setClock((clock) => ({
-            ...clock,
-            paused: true,
-        }));
+    const startStopTimer = () => {
+        if(clock.paused){
+            setClock((clock) => ({
+                ...clock,
+                paused: false,
+            }));
+        }
+        else{
+            setClock((clock) => ({
+                ...clock,
+                paused: true,
+            }));
+        }
+        console.log(audio)
     };
 
     const restartTimer = () => {
-        audio.current.pause();
-        audio.current.currentTime = 0;
+        audio.pause();
+        audio.currentTime = 0;
 
         setClock((clock) => ({
             ...clock,
-            time: clock.session,
+            time: 1500,
+            paused: true,
+            break: 300, 
+            session: 1500,
+            breakTime: false
         }));
-        
     };
 
     const changeBreakDuration = (num) => {
         if (clock.break > 60 || num > 0) {
+            if(clock.break>=3600 && num > 0){
+                return
+            }
             setClock((clock) => ({
                 ...clock,
                 break: clock.break + num,
@@ -63,6 +71,9 @@ function App() {
 
     const changeSessionDuration = (num) => {
         if (clock.session > 60 || num > 0) {
+            if(clock.session>=3600 && num > 0){
+                return
+            }
         setClock((clock) => ({
             ...clock,
             session: clock.session + num,
@@ -79,6 +90,9 @@ function App() {
                     ...clock,
                     time: clock.time - 1,
                 }));
+                if(clock.time==1){
+                    audio.play();
+                }
             }
             else if (clock.time == 0) {
                 if (clock.breakTime) {
@@ -87,7 +101,6 @@ function App() {
                         breakTime: false,
                         time: clock.session
                     }));
-                    audio.current.play();
                     document.title = 'Work. Work. Work.';
                 } else {
                     setClock((clock) => ({
@@ -95,8 +108,7 @@ function App() {
                         breakTime: true,
                         time: clock.break
                     }));
-                    audio.current.play();
-                    document.title = 'Take a break';
+                    document.title = 'Rest';
                 }
             }
         }, 1000);
@@ -126,12 +138,12 @@ function App() {
             <Display
                 time={getTimeRemaining(clock.time)}
                 title={clock.breakTime == true ? "Break Time" : "Session"}
-                startTimer={startTimer}
-                stopTimer={stopTimer}
+                startStopTimer={startStopTimer}
                 restartTimer={restartTimer}
+                isPaused={clock.paused}
             />
-            <audio src="./public/ding-sound.mp3" id="beep"></audio>
             <span id="warning">*A sound will be played when the timer ends.</span>
+            
         </div>
     );
 }
